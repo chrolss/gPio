@@ -6,7 +6,7 @@
 
 #include "gpio.h"
 
-gpio::gpio(std::string _pin, int _dir){
+gpio::gpio(std::string _pin, string _dir){
 	//always initialize with 0 value
 	this->pinName = _pin;
 	this->value = 0;
@@ -59,7 +59,7 @@ int gpio::setValue(int _val){
 	return 0;
 }
 
-int gpio::setDirection(int _dir){
+int gpio::setDirection(std::string _dir){
     string setdir_str ="/sys/class/gpio/gpio" + this->pinName + "/direction";
     ofstream setdirgpio(setdir_str.c_str()); // open direction file for gpio
 	if (setdirgpio < 0){
@@ -72,7 +72,7 @@ int gpio::setDirection(int _dir){
 	return 0;
 }
 
-int gpio::getDirection(){
+std::string gpio::getDirection(){
 	return this->direction;
 }
 

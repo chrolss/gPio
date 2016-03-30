@@ -8,11 +8,11 @@ using namespace std;
 
 class gpio{
 public:
-	gpio(string _pin, int _dir);	//constructor
+	gpio(string _pin, string _dir);	//constructor
 	int setValue(int _val);
 	int getValue();
-	int setDirection(int _dir);
-	int getDirection();
+	int setDirection(string _dir);
+	string getDirection();
 	string getPinName();
 	int closePin();
 private:
