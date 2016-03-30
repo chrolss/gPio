@@ -7,15 +7,16 @@
 
 #include "gpio.h"
 #include "unistd.h"
+#include <stdio.h>
 
 int main(){
-	gpio testPin = new gpio("4", "out");
-	printf("Turning on pin nr.4");
-	testPin.setValue(1);
+	gpio* testPin = new gpio("21", "out");
+	printf("Turning on pin nr.21\n");
+	testPin->setValue(1);
 	usleep(5000000); //wait for 5 seconds
-	printf("Turning off pin nr.4");
-	testPin.setValue(0);
-	testPin.closePin();
+	printf("Turning off pin nr.21\n");
+	testPin->setValue(0);
+	testPin->closePin();
 }
 
 

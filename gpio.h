@@ -18,7 +18,7 @@ public:
 private:
 	string pinName;
 	int value;
-	int direction;
+	string direction;
 	int exportPin();
 	int unexportPin();
 };
