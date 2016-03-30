@@ -8,18 +8,19 @@ using namespace std;
 
 class gpio{
 public:
-	gpio(string _pin);	//constructor
+	gpio(string _pin, int _dir);	//constructor
 	int setValue(int _val);
 	int getValue();
 	int setDirection(int _dir);
-	int getDirection(int _dir);
+	int getDirection();
 	string getPinName();
+	int closePin();
 private:
 	string pinName;
 	int value;
 	int direction;
-	bool exportPin();
-	bool unexportPin();
+	int exportPin();
+	int unexportPin();
 };
 
 #endif
