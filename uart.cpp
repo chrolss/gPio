@@ -18,7 +18,8 @@ int main(int argc, char ** argv) {
   fcntl(fd, F_SETFL, 0);
 
   // Write to the port
-  int n = write(fd, "Hello", 6);
+  char *msg = "tja";
+  int n = write(fd, msg, 4);
   if (n < 0) {
     perror("Write failed - ");
     return -1;
