@@ -20,6 +20,16 @@ std::string gpio::getPinName(){
 	return this->pinName;
 }
 
+int gpio::turnON(){
+	this->setValue(1);
+	return 1;
+}
+
+int gpio::turnOFF(){
+	this->setValue(0);
+	return 1;
+}
+
 int gpio::exportPin(){
 	string export_str = "/sys/class/gpio/export";
 	ofstream exportgpio(export_str.c_str()); // Open "export" file. Convert C++ string to C string. Required for all Linux pathnames

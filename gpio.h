@@ -11,6 +11,8 @@ public:
 	gpio(string _pin, string _dir);	//constructor
 	int setValue(int _val);
 	int getValue();
+	int turnON();
+	int turnOFF();
 	int setDirection(string _dir);
 	string getDirection();
 	string getPinName();
