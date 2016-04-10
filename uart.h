@@ -5,6 +5,9 @@
 #include <errno.h>
 #include <termios.h>
 
+#ifndef UART_H_
+#define UART_H_
+
 class uart{
 public:
 	uart::uart();
@@ -18,3 +21,5 @@ private:
 
 
 };
+
+#endif
