@@ -14,8 +14,10 @@ class i2c{
 public:
 	i2c(std::string _device);
 	int initialize();
-	int readData();
-	int writeData();
+	int readByte();
+	int writeByte();
+	int readBit();
+	int writeBit();
 	int closei2c();
 private:
 	std::string devName;
