@@ -15,15 +15,15 @@ public:
 	i2c(int _devAddress);
 	int initialize();
 	int readReg(char _register);
-    int writeReg(char _register);
+	int writeReg(char _register);
 	int closei2c();
 private:
-    char txBuffer[32]; //transmit buffer
-    char rxBuffer[32]; //receiver buffer
-    int i2cHandle;
-    int opResult; //operation result handle
-    int tenBitAddress;
-    char devAddress;
+	char txBuffer[32]; //transmit buffer
+	char rxBuffer[32]; //receiver buffer
+	int i2cHandle;
+	int opResult; //operation result handle
+	int tenBitAddress;
+	char devAddress;
 };
 
 #endif
