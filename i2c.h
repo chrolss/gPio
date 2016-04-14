@@ -14,13 +14,16 @@ class i2c{
 public:
 	i2c(std::string _device);
 	int initialize();
-	int readByte();
-	int writeByte();
-	int readBit();
-	int writeBit();
+	int read(int _devAdress, char _register);
+        Int write(int _devAdress, char _register);
 	int closei2c();
 private:
 	std::string devName;
+        Char txBuffer[32]; //transmit buffer 
+        Char rxBuffer[32]; //receiver buffer
+        Int i2cHandle;
+        Int opResult; //operation result handle
+        Int tenBitAddress = 0;
 };
 
 #endif
