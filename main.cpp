@@ -9,6 +9,7 @@
 #include "unistd.h"
 #include <stdio.h>
 #include "i2c.h"
+#include <iostream>
 
 void testGPIO(){
 		gpio* testPin = new gpio("21", "out");
@@ -22,13 +23,14 @@ void testGPIO(){
 
 
 void testi2c(){
-	i2c* testDev = new i2c(0x68);
+	i2c* testDev = new i2c(0x77);
 	int testRes = testDev->readReg(0x00);
-	std::cout << "Response was: " << testRes << std::endl;
+	std::cout << testRes << std::endl;
 }
 
 int main(){
-	testGPIO();
+	//testGPIO();
+	testi2c();
 }
 
 
