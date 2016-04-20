@@ -3,8 +3,9 @@
  *
  *  Created on: Mar 30, 2016
  *      Author: christian
+ *      kom igen
  */
-
+// funkar det?
 #include "gpio.h"
 #include "unistd.h"
 #include <stdio.h>
