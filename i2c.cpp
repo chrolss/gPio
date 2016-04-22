@@ -20,9 +20,9 @@ int i2c::readReg(char _register){
     return (int)txBuffer[0];
 }
 
-int i2c::writeReg(char _register){
+int i2c::writeReg(char _register, int _bit){
 	this->txBuffer[0] = _register;
-	this->opResult = write(this->i2cHandle, txBuffer, 1);
+	this->opResult = write(this->i2cHandle, txBuffer, _bit);
 	if (opResult != 1){
 		printf("No ack bit!\n");
 		return -1;

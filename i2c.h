@@ -15,7 +15,7 @@ public:
 	i2c(int _devAddress);
 	int initialize();
 	int readReg(char _register);
-	int writeReg(char _register);
+	int writeReg(char _register, int _bit);
 	int closei2c();
 private:
 	char txBuffer[32]; //transmit buffer
