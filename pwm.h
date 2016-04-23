@@ -32,14 +32,18 @@
 
 class pwm{
 public:
-	pwm(int _pin);
-	void initialize(int _pin);
+	pwm();
+	void initialize();
 	void setDutyCycle(double _duty);
-	void setPeriod(int _period);
+	void setFrequency(int _freq);
 	void closePWM();
 private:
 	int devAdress = 0x40; //i2c address to Adafruit PWM hat
 	int pinNr;
+	int i2cHandle;
+	int opRes;
+	char txBuffer[32];
+	char rxBuffer[32];
 };
 
 #endif

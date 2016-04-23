@@ -165,10 +165,20 @@ void testMPU(){
 	}
 }
 
+void testPWM(){
+	pwm* pwm = new pwm();
+	pwm->setDutyCycle(0.0);
+	printf("set it to 0.0\n");
+	usleep(100000);
+	printf("set it to 50\n");
+	usleep(500000);
+}
+
 int main(){
 	//testGPIO();
 	//testi2c();
 	//testFromInternet();
 	//testGyro();
-	testMPU();
+	//testMPU();
+	testPWM();
 }
