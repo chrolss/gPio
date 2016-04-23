@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <stdio.h>
+#include <iostream>
 
 #ifndef I2C_H_
 #define I2C_H_
@@ -15,7 +16,9 @@ public:
 	i2c(int _devAddress);
 	int initialize();
 	int readReg(char _register);
-	int writeReg(char _register, int _bit);
+	int readAcc();
+	int readGyro();
+	int writeReg(char _register, char _msg, int _bit);
 	int closei2c();
 private:
 	char txBuffer[32]; //transmit buffer

@@ -1,0 +1,4 @@
+To start reading from MPU9150 with i2c-tools
+
+i2cset -y 1 0x68 0x6B 1		//turns off sleep-mode
+i2cget -y 1 0x68 0x42 w		//gets LSB of temperature reading

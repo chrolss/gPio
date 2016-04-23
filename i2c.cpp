@@ -10,22 +10,45 @@ i2c::i2c(int _devAddress){
 	this->opResult = ioctl(this->i2cHandle, I2C_SLAVE, devAddress); //tell the i2c periheral which address to communicate with
 }
 
+int i2c::readAcc(){
+	this->txBuffer[0] = 0x3B;
+	this->opResult = write(this->i2cHandle, txBuffer, 1);
+	if (opResult != 1){
+		printf("no ack bit on read\n");
+		return -1;
+	}
+	opResult = read(this->i2cHandle, rxBuffer, 2);
+	return ((int16_t)rxBuffer[0]<<8) | rxBuffer[1];
+}
+
+int i2c::readGyro(){
+	this->txBuffer[0] = 0x43;
+	this->opResult = write(this->i2cHandle, txBuffer, 1);
+	if (opResult != 1){
+		printf("no ack bit on read\n");
+		return -1;
+	}
+	opResult = read(this->i2cHandle, rxBuffer, 2);
+	return ((int16_t)rxBuffer[0]<<8) | rxBuffer[1];
+}
+
 int i2c::readReg(char _register){
 	this->txBuffer[0] = _register;
     this->opResult = write(this->i2cHandle, txBuffer, 1);
     if (opResult != 1){
-    	printf("No ack bit");
+    	printf("No ack bit on read");
     }
     opResult = read(this->i2cHandle, this->rxBuffer, 1);
-    return (int)txBuffer[0];
+    return (int)rxBuffer[0];
 }
 
-int i2c::writeReg(char _register, int _bit){
+int i2c::writeReg(char _register, char _msg, int _bit){
 	this->txBuffer[0] = _register;
+	this->txBuffer[1] = _msg;
 	this->opResult = write(this->i2cHandle, txBuffer, _bit);
-	if (opResult != 1){
-		printf("No ack bit!\n");
-		return -1;
+	if (opResult != _bit){
+		printf("No ack bit on write!\n");
+		return opResult;
 	}
 	return opResult;
 	}

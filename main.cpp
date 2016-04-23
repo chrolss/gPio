@@ -10,6 +10,7 @@
 #include "unistd.h"
 #include <stdio.h>
 #include "i2c.h"
+#include "mpu9150.h"
 #include <iostream>
 
 void testGPIO(){
@@ -84,7 +85,8 @@ void testGyro(){
 	  //   register, which contains the I2C address. The process is easy- write the
 	  //   desired address, the execute a read command.
 	  txBuffer[0] = 0x6B;
-	  opResult = write(i2cHandle, txBuffer, 1); //wake it up
+	  txBuffer[1] = 1;
+	  opResult = write(i2cHandle, txBuffer, 2); //wake it up
 	  sleep(1);
 
 	  // TO DO - WRITE ALL SETUP CODE FROM ARDUINO PAGE TO GET STABLE READINGS
@@ -114,24 +116,59 @@ void testGyro(){
 	  }
 }
 
+
 void testi2c(){
 	i2c* testDev = new i2c(0x68);
-	int opRes = testDev->writeReg(0x6B, 1);
-	int testRes = testDev->readReg(0x75); //read "who am I?"
+	int testRes = testDev->writeReg(0x6B, 1, 2);
+	testRes = testDev->writeReg(0x24, 0x40, 2); //Wait for Data at Slave0
+	testRes = testDev->writeReg(0x25, 0x8C, 2); //Set i2c address at slave0 at 0x0C
+	testRes = testDev->writeReg(0x26, 0x02, 2); //Set where reading at slave 0 starts
+	testRes = testDev->writeReg(0x27, 0x88, 2); //set offset at start reading and enable
+	testRes = testDev->writeReg(0x28, 0x0C, 2); //set i2c address at slv1 at 0x0C
+	testRes = testDev->writeReg(0x29, 0x0A, 2); //Set where reading at slave 1 starts
+	testRes = testDev->writeReg(0x2A, 0x81, 2); //Enable at set length to 1
+	testRes = testDev->writeReg(0x64, 0x01, 2); //overvride register
+	testRes = testDev->writeReg(0x67, 0x03, 2); //set delay rate
+	testRes = testDev->writeReg(0x01, 0x80, 2);
+
+	testRes = testDev->writeReg(0x34, 0x04, 2); //set i2c slv4 delay
+	testRes = testDev->writeReg(0x64, 0x00, 2); //override register
+	testRes = testDev->writeReg(0x6A, 0x00, 2); //clear usr setting
+	testRes = testDev->writeReg(0x64, 0x01, 2); //override register
+	testRes = testDev->writeReg(0x6A, 0x20, 2); //enable master i2c mode
+	testRes = testDev->writeReg(0x34, 0x13, 2); //disable slv4
+
+	testRes = testDev->readReg(0x75); //read "who am I?"
 	printf("I am %d\n", testRes);
 
 	//read raw sensor values
-	int rawResL = testDev->readReg(0x43);
-	printf("least gyro %d\n", rawResL);
-	int rawResM = testDev->readReg(0x44);
-	printf("most gyro %d\n", rawResM);
+	for (int i = 0; i<10; i++){
+		int accRead = testDev->readAcc();
+		int gyroRead = testDev->readGyro();
+		printf("X-acc: %d , X-gyro : %d\n", accRead, gyroRead);
+		//int rawResL = testDev->readReg(0x43);
+		//printf("least gyro %d\n", rawResL);
+		//int rawResM = testDev->readReg(0x44);
+		//printf("most gyro %d\n", rawResM);
+		sleep(1);
+	}
+}
+
+void testMPU(){
+	mpu9150* mpu = new mpu9150();
+	double testArr [3];
+	for (int i = 0;i<200;i++){
+		mpu->getAccelerations(testArr);
+		//printf("X: %f, Y: %f, Z: %f\n", testArr[0], testArr[1], testArr[2]);
+		printf("Pitch: %f, Roll: %f\n", mpu->getPitch(), mpu->getRoll());
+		usleep(100000);
+	}
 }
 
 int main(){
 	//testGPIO();
 	//testi2c();
 	//testFromInternet();
-	testGyro();
+	//testGyro();
+	testMPU();
 }
-
-
