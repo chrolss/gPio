@@ -8,9 +8,11 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "i2c.h"
+#include "math.h"
 
-#ifndef HATCONTROL_H_
-#define HATCONTROL_H_
+#ifndef PWM_H_
+#define PWM_H_
+
 #define LED0_ON_L	0x06
 #define LED0_ON_H	0x07
 #define LED0_OFF_L	0x08

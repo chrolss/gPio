@@ -16,21 +16,26 @@ void pwm::initialize(){
 
 void pwm::setDutyCycle(double _duty){
 	double val = 4096.0*(_duty/100);	//duty percentage to 4096 bit value
-	txBuffer[0] = LED0_ON_H;
-	txBuffer[1] = 0;
-	opRes = write(this->i2cHandle, txBuffer, 2);
 	txBuffer[0] = LED0_ON_L;
 	txBuffer[1] = 0;
 	opRes = write(this->i2cHandle, txBuffer, 2);
-	txBuffer[0] = LED0_OFF_H;
-	txBuffer[1] = (int)val & 0xFF;
+	txBuffer[0] = LED0_ON_H;
+	txBuffer[1] = 0;
 	opRes = write(this->i2cHandle, txBuffer, 2);
 	txBuffer[0] = LED0_OFF_L;
+	txBuffer[1] = (int)val&0xFF;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	txBuffer[0] = LED0_OFF_H;
 	txBuffer[1] = (int)val >> 8;
 	opRes = write(this->i2cHandle, txBuffer, 2);
 }
 
 void pwm::setFrequency(int _freq){
+	rxBuffer[0] = 0x00;
+	int oldMode = read(this->i2cHandle, rxBuffer,1);
+	int newMode = (oldMode & 0x7F) | 0x10;
+	txBuffer[0] = newMode;
+	opRes = write(this->i2cHandle, txBuffer,1);
 	double val = 25000000.0/4096.0;
 	double preVal = val/(double)_freq;
 	preVal = preVal - 1;
@@ -41,5 +46,12 @@ void pwm::setFrequency(int _freq){
 	if (opRes != 2){
 		printf("Error when writing frequency\n");
 	}
+	txBuffer[0] = 0x00;
+	txBuffer[1] = oldMode;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	usleep(10000);
+	txBuffer[0] = 0x00;
+	txBuffer[1] = oldMode | 0x80;
+	opRes = write(this->i2cHandle, txBuffer, 2);
 
 }

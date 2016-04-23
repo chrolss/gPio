@@ -12,6 +12,7 @@
 #include "i2c.h"
 #include "mpu9150.h"
 #include <iostream>
+#include "pwm.h"
 
 void testGPIO(){
 		gpio* testPin = new gpio("21", "out");
@@ -166,12 +167,43 @@ void testMPU(){
 }
 
 void testPWM(){
-	pwm* pwm = new pwm();
-	pwm->setDutyCycle(0.0);
+	pwm* Pewm = new pwm();
+	double frekk;
+	printf("Set frequency: ");
+	std::cin >> frekk;
+	Pewm->setFrequency(frekk);
+	Pewm->setDutyCycle(0.0);
 	printf("set it to 0.0\n");
 	usleep(100000);
-	printf("set it to 50\n");
-	usleep(500000);
+	double answer;
+	for (int k = 0;k<10; k++){
+		printf("Give pwm: ");
+		std::cin >> answer;
+		Pewm->setDutyCycle(answer);
+		printf("\n set it to %f\n", answer);
+	}
+}
+
+void playGround(){
+	pwm* Pewm = new pwm();
+	double frekk;
+	printf("Set frequency: ");
+	std::cin >> frekk;
+	Pewm->setFrequency(frekk);
+	Pewm->setDutyCycle(0.0);
+	printf("set it to 0.0\n");
+	usleep(100000);
+	mpu9150* mpu = new mpu9150();
+	double testArr [3];
+	double pitch;
+	double duty;
+	for (int i = 0;i<20000;i++){
+		mpu->getAccelerations(testArr);
+		pitch = mpu->getPitch();
+		duty = 5.0/90*pitch + 8;
+		Pewm->setDutyCycle(duty);
+		usleep(1000);
+	}
 }
 
 int main(){
@@ -180,5 +212,6 @@ int main(){
 	//testFromInternet();
 	//testGyro();
 	//testMPU();
-	testPWM();
+	//testPWM();
+	playGround();
 }
