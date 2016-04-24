@@ -10,10 +10,12 @@
 
 class uart{
 public:
-	uart::uart();
+	uart();
 	int initialize();
 	int sendMsg(char *_msg);
-	std::string readMsg();
+	int readMsg();
+	int contRead();
+	int joystickRead();
 	int closeUART();
 
 private:

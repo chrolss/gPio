@@ -13,6 +13,7 @@
 #include "mpu9150.h"
 #include <iostream>
 #include "pwm.h"
+#include "uart.h"
 
 void testGPIO(){
 		gpio* testPin = new gpio("21", "out");
@@ -206,6 +207,14 @@ void playGround(){
 	}
 }
 
+void testUART(){
+	uart* port = new uart();
+	//port->readMsg();
+	//port->contRead();
+	port->joystickRead();
+	port->closeUART();
+}
+
 int main(){
 	//testGPIO();
 	//testi2c();
@@ -213,5 +222,6 @@ int main(){
 	//testGyro();
 	//testMPU();
 	//testPWM();
-	playGround();
+	//playGround(); //works great
+	testUART();
 }
