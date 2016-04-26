@@ -122,6 +122,7 @@ int uart::joystickRead(){
 	int n = read(this->fd, (void*)buf, 1);
 	int m = read(this->fd, (void*)sec, 1);
 	int compVal;
+   // read one larger buffer, find start byte and navigate accordingly
 	for (int j = 0; j<50; j++){
 		//int n = read(this->fd, buf, sizeof(buf));
 		if (n < 0) {
