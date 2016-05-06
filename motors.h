@@ -9,4 +9,6 @@ public:
 	int closeMotors();
 private:
 	int initialize();
+	pwm* pwmHandle;
+	double stopDuty = {0.0,0.0,0.0,0.0};
 };

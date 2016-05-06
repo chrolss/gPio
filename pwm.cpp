@@ -30,6 +30,65 @@ void pwm::setDutyCycle(double _duty){
 	opRes = write(this->i2cHandle, txBuffer, 2);
 }
 
+void pwm::setQuadDutyCycle(double &_duty){
+	double RF = 4096.0*(_duty[0]/100);	//duty percentage to 4096 bit value
+	double RR = 4096.0*(_duty[1]/100);
+	double LR = 4096.0*(_duty[2]/100);
+	double LF = 4096.0*(_duty[3]/100);
+	//Right front
+	txBuffer[0] = LED0_ON_L;
+	txBuffer[1] = 0;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	txBuffer[0] = LED0_ON_H;
+	txBuffer[1] = 0;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	txBuffer[0] = LED0_OFF_L;
+	txBuffer[1] = (int)RF&0xFF;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	txBuffer[0] = LED0_OFF_H;
+	txBuffer[1] = (int)RF >> 8;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	//Right rear
+	txBuffer[0] = LED1_ON_L;
+	txBuffer[1] = 0;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	txBuffer[0] = LED1_ON_H;
+	txBuffer[1] = 0;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	txBuffer[0] = LED1_OFF_L;
+	txBuffer[1] = (int)RR&0xFF;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	txBuffer[0] = LED1_OFF_H;
+	txBuffer[1] = (int)RR >> 8;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	//Left rear
+	txBuffer[0] = LED2_ON_L;
+	txBuffer[1] = 0;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	txBuffer[0] = LED2_ON_H;
+	txBuffer[1] = 0;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	txBuffer[0] = LED2_OFF_L;
+	txBuffer[1] = (int)LR&0xFF;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	txBuffer[0] = LED2_OFF_H;
+	txBuffer[1] = (int)LR >> 8;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	//left front
+	txBuffer[0] = LED3_ON_L;
+	txBuffer[1] = 0;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	txBuffer[0] = LED3_ON_H;
+	txBuffer[1] = 0;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	txBuffer[0] = LED3_OFF_L;
+	txBuffer[1] = (int)LF&0xFF;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+	txBuffer[0] = LED3_OFF_H;
+	txBuffer[1] = (int)LF >> 8;
+	opRes = write(this->i2cHandle, txBuffer, 2);
+}
+
 void pwm::setFrequency(int _freq){
 	rxBuffer[0] = 0x00;
 	int oldMode = read(this->i2cHandle, rxBuffer,1);

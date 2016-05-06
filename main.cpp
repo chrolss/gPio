@@ -207,6 +207,22 @@ void playGround(){
 	}
 }
 
+void motorTest(){
+	motors* motorHandle = new motors();
+	double val;
+	double arrVal[4];
+	val = 20.0;
+	while (val > 19.0){
+		printf("Give a duty cycle\n");
+		std::cin >> val;
+		for (int i = 0; i<4;i++)	{
+				arrVal[i] = val;
+		}
+		motorHandle->setSpeed(*arrVal);
+		printf("\nSpeeds set to %f\n", val);
+	}
+}
+
 void testUART(){
 	uart* port = new uart();
 	//port->readMsg();
