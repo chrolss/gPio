@@ -64,7 +64,7 @@ int uart::sendMsg(char *_msg){
 	  fcntl(fd, F_SETFL, 0);
 
 	  // Write to the port
-	  char *msg = "tja";
+	  char *msg;
 	  int n = write(fd, msg, 4);	// change the 4 to a general buffLength
 	  if (n < 0) {
 	    perror("Write failed - ");

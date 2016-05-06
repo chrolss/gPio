@@ -30,11 +30,11 @@ void pwm::setDutyCycle(double _duty){
 	opRes = write(this->i2cHandle, txBuffer, 2);
 }
 
-void pwm::setQuadDutyCycle(double &_duty){
-	double RF = 4096.0*(_duty[0]/100);	//duty percentage to 4096 bit value
-	double RR = 4096.0*(_duty[1]/100);
-	double LR = 4096.0*(_duty[2]/100);
-	double LF = 4096.0*(_duty[3]/100);
+void pwm::setQuadDutyCycle(double* _duty){
+	double RF = 4096.0*(_duty[0]/100.0);	//duty percentage to 4096 bit value
+	double RR = 4096.0*(_duty[1]/100.0);
+	double LR = 4096.0*(_duty[2]/100.0);
+	double LF = 4096.0*(_duty[3]/100.0);
 	//Right front
 	txBuffer[0] = LED0_ON_L;
 	txBuffer[1] = 0;

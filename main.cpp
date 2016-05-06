@@ -14,6 +14,7 @@
 #include <iostream>
 #include "pwm.h"
 #include "uart.h"
+#include "motors.h"
 
 void testGPIO(){
 		gpio* testPin = new gpio("21", "out");
@@ -173,8 +174,8 @@ void testPWM(){
 	printf("Set frequency: ");
 	std::cin >> frekk;
 	Pewm->setFrequency(frekk);
-	Pewm->setDutyCycle(0.0);
-	printf("set it to 0.0\n");
+	Pewm->setDutyCycle(20.0);
+	printf("set it to 20.0\n");
 	usleep(100000);
 	double answer;
 	for (int k = 0;k<10; k++){
@@ -182,6 +183,24 @@ void testPWM(){
 		std::cin >> answer;
 		Pewm->setDutyCycle(answer);
 		printf("\n set it to %f\n", answer);
+	}
+}
+
+void testPWM2(){
+	pwm* Pewm = new pwm();
+	double frekk;
+	printf("Set frequency: ");
+	std::cin >> frekk;
+	//Pewm->setFrequency(frekk);
+	Pewm->setDutyCycle(20.0);
+	printf("set it to 20.0\n");
+	usleep(100000);
+	double answer;
+	answer = 1.0;
+	while (answer < 200){
+		answer = answer + 1.0;
+		Pewm->setFrequency(answer);
+		printf("set it to %f\n", answer);
 	}
 }
 
@@ -218,7 +237,7 @@ void motorTest(){
 		for (int i = 0; i<4;i++)	{
 				arrVal[i] = val;
 		}
-		motorHandle->setSpeed(*arrVal);
+		motorHandle->setSpeed(arrVal);
 		printf("\nSpeeds set to %f\n", val);
 	}
 }
@@ -239,5 +258,7 @@ int main(){
 	//testMPU();
 	//testPWM();
 	//playGround(); //works great
-	testUART();
+	//testUART();
+	//motorTest();
+	testPWM2();
 }

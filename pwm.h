@@ -37,7 +37,7 @@ public:
 	pwm();
 	void initialize();
 	void setDutyCycle(double _duty);
-	void setQuadDutyCycle(double &_duty)
+	void setQuadDutyCycle(double* _duty);
 	void setFrequency(int _freq);
 	void closePWM();
 private:
