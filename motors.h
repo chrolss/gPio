@@ -9,6 +9,8 @@ public:
 	int closeMotors();
 private:
 	int initialize();
+	double mapper(double _preVal);
 	pwm* pwmHandle;
 	double stopDuty[4];
+	double internalDuty[4];
 };

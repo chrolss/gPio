@@ -189,9 +189,9 @@ void testPWM(){
 void testPWM2(){
 	pwm* Pewm = new pwm();
 	double frekk;
-	printf("Set frequency: ");
-	std::cin >> frekk;
-	//Pewm->setFrequency(frekk);
+	//printf("Set frequency: ");
+	//std::cin >> frekk;
+	Pewm->setFrequency(200);
 	Pewm->setDutyCycle(20.0);
 	printf("set it to 20.0\n");
 	usleep(100000);
@@ -230,16 +230,17 @@ void motorTest(){
 	motors* motorHandle = new motors();
 	double val;
 	double arrVal[4];
-	val = 20.0;
-	while (val > 19.0){
-		printf("Give a duty cycle\n");
-		std::cin >> val;
+	val = 0.0;
+	while (val < 101.0){
 		for (int i = 0; i<4;i++)	{
 				arrVal[i] = val;
 		}
 		motorHandle->setSpeed(arrVal);
 		printf("\nSpeeds set to %f\n", val);
+		printf("Give a duty cycle, to exit, set to 20.0, then smth less than 19\n");
+		std::cin >> val;
 	}
+	motorHandle->closeMotors();
 }
 
 void testUART(){
@@ -248,6 +249,24 @@ void testUART(){
 	//port->contRead();
 	port->joystickRead();
 	port->closeUART();
+}
+
+void testCppPWM(){
+	pwm* Pewm = new pwm();
+	double frekk;
+	printf("Set frequency to 200: ");
+	std::cin >> frekk;
+	Pewm->setFrequency(frekk);
+	Pewm->setDutyCycle(20.0);
+	printf("set it to 20.0\n");
+	usleep(100000);
+	double answer;
+	for (int k = 0;k<10; k++){
+		printf("Give pwm 20 - 49: ");
+		std::cin >> answer;
+		Pewm->setDutyCycle(answer);
+		printf("\n set it to %f\n", answer);
+	}
 }
 
 int main(){
@@ -259,6 +278,7 @@ int main(){
 	//testPWM();
 	//playGround(); //works great
 	//testUART();
-	//motorTest();
-	testPWM2();
+	motorTest();
+	//testPWM2();
+	//testCppPWM();
 }
